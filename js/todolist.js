@@ -31,11 +31,49 @@
     // Função responsável por criar o elemento li e paragrafo e adicionar os dados do objeto recebido por parametro no paragrafo
     function generateLiTask(obj){
         const li = document.createElement("li")
-        li.className = "todo-item"
         const paragrafo = document.createElement("p")
+        const checkButton = document.createElement("button")
+        const editButton = document.createElement("i")
+        const deleteButton = document.createElement("i")
+
+        li.className = "todo-item"
+
+        checkButton.className = "button-check"
+        checkButton.innerHTML = `<i class="fas fa-check displayNone"></i>`
+
+        li.appendChild(checkButton)
+
         paragrafo.className = "task-name"
         paragrafo.textContent = obj.name
         li.appendChild(paragrafo)
+
+        editButton.className = "fas fa-edit"
+        li.appendChild(editButton)
+
+        const containerEdit = document.createElement("div")
+        containerEdit.className = "editContainer"
+        const inputEdit = document.createElement("input")
+        inputEdit.type = "text"
+        inputEdit.className = "editInput"
+        containerEdit.appendChild(inputEdit)
+
+        const containerEditButton = document.createElement("button")
+        containerEditButton.className = "editButton"
+        containerEditButton.textContent = "Edit"
+        containerEdit.appendChild(containerEditButton)
+
+        const containerCancelButton = document.createElement("button")
+        containerCancelButton.className = "cancelButton"
+        containerCancelButton.textContent = "Cancel"
+        containerEdit.appendChild(containerCancelButton)
+
+        li.appendChild(containerEdit)
+        
+
+        // Pode ser usado className ou classList
+        deleteButton.classList.add("fas", "fa-trash-alt") //Adiciona as classes separadamente em cada parametro
+        li.appendChild(deleteButton)
+
         addEventList(li)
 
         return li
