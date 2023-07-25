@@ -1,11 +1,11 @@
 ;(function (){
     "use strict"
 
-    // ARMAZENAR O DOM EM VARIAVEIS
+    // ARMAZENAR O DOM EM VARIAVEIS - usando getElements toda alteração nos elementos atribuidos será refletido nos elementos obtidos
     const itemInput = document.getElementById("item-input")
     const todoAddForm = document.getElementById("todo-add")
     const ulTodoList = document.getElementById("todo-list")
-    //const lisTodoList = document.getElementsByTagName("li")
+    const lisTodoList = document.getElementsByTagName("li")
 
     let arrTasks = [
         {
@@ -106,8 +106,33 @@
     }
 
     function clickedUlTodoList(e){
-        console.log(e.target)
-        console.log(e.target.getAttribute("data-action"))
+        const dataAction = e.target.getAttribute("data-action")
+        if(!dataAction) return 
+
+        // Adicionando algoritmo para obter o Pai do elemento no caso a "LI" pai dos elementos da TodoList,
+        // atribuindo o elemento pai na varíavel até chegar na LI
+        let currentLi = e.target
+        while(currentLi.nodeName !=="LI"){
+            currentLi = currentLi.parentNode
+        }
+        // Obter o indice da li da tarefa selecionada que tenha um atributo data-action
+        const currentLiIndex = [...lisTodoList].indexOf(currentLi)
+
+        // Usando Objetos para adicionar funcões na constante criada
+        const actions ={
+            editButton: function(){
+                console.log("editButton no objeto")
+            },
+            deleteButton: function(){
+                arrTasks.splice(currentLiIndex, 1)
+                console.log(arrTasks)
+                renderTasks()
+            }
+        } 
+
+        if(actions[dataAction]){
+            actions[dataAction]()
+        }
     }
 
     // Adicionando a escuta do evento de submit para adicionar a To do criada na ul
