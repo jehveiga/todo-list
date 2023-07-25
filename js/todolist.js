@@ -21,12 +21,12 @@
     ]
 
     // Função responsável por adicionar um evento de escuta de click no elemento li passado por parametro
-    function addEventList(li) {
-        li.addEventListener("click",function () {
-            console.log(this)
+    // function addEventList(li) {
+    //     li.addEventListener("click",function () {
+    //         console.log(this)
 
-        })
-    }
+    //     })
+    // }
 
     // Função responsável por criar o elemento li e paragrafo e adicionar os dados do objeto recebido por parametro no paragrafo
     function generateLiTask(obj){
@@ -35,11 +35,13 @@
         const checkButton = document.createElement("button")
         const editButton = document.createElement("i")
         const deleteButton = document.createElement("i")
+        
 
         li.className = "todo-item"
 
         checkButton.className = "button-check"
         checkButton.innerHTML = `<i class="fas fa-check displayNone"></i>`
+        checkButton.setAttribute("data-action", "checkButton")
 
         li.appendChild(checkButton)
 
@@ -48,6 +50,7 @@
         li.appendChild(paragrafo)
 
         editButton.className = "fas fa-edit"
+        editButton.setAttribute("data-action", "editButton")
         li.appendChild(editButton)
 
         const containerEdit = document.createElement("div")
@@ -60,11 +63,13 @@
         const containerEditButton = document.createElement("button")
         containerEditButton.className = "editButton"
         containerEditButton.textContent = "Edit"
+        containerEditButton.setAttribute("data-action", "containerEditButton")
         containerEdit.appendChild(containerEditButton)
 
         const containerCancelButton = document.createElement("button")
         containerCancelButton.className = "cancelButton"
         containerCancelButton.textContent = "Cancel"
+        containerCancelButton.setAttribute("data-action", "containerCancelButton")
         containerEdit.appendChild(containerCancelButton)
 
         li.appendChild(containerEdit)
@@ -72,9 +77,12 @@
 
         // Pode ser usado className ou classList
         deleteButton.classList.add("fas", "fa-trash-alt") //Adiciona as classes separadamente em cada parametro
+
+        // Adicionando atributos para separar cada evento de delegação de evento
+        deleteButton.setAttribute("data-action", "deleteButton")
         li.appendChild(deleteButton)
 
-        addEventList(li)
+        //addEventList(li)
 
         return li
     }
@@ -97,6 +105,11 @@
         })
     }
 
+    function clickedUlTodoList(e){
+        console.log(e.target)
+        console.log(e.target.getAttribute("data-action"))
+    }
+
     // Adicionando a escuta do evento de submit para adicionar a To do criada na ul
     todoAddForm.addEventListener("submit", function (e) {
         e.preventDefault()
@@ -112,6 +125,8 @@
         itemInput.value = "";
         itemInput.focus()
     });
+
+    ulTodoList.addEventListener("click", clickedUlTodoList)
 
     renderTasks()
 
