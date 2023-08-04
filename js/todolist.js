@@ -7,33 +7,26 @@
     const ulTodoList = document.getElementById("todo-list")
     const lisTodoList = document.getElementsByTagName("li")
 
-    let arrTasks = getSavedData();
+    let arrTasks = [
+        {
+            name: "task 1",
+            createAt: Date.now(),
+            completed: false,
+        },
+        {
+            name: "task 2",
+            createAt: Date.now(),
+            completed: false,
+        }
+    ]
 
-    // Obtendo valor do localStorage
-    function getSavedData() {
-        let tasksData = localStorage.getItem("tasks")
-        tasksData = JSON.parse(tasksData)
+    // Função responsável por adicionar um evento de escuta de click no elemento li passado por parametro
+    // function addEventList(li) {
+    //     li.addEventListener("click",function () {
+    //         console.log(this)
 
-        return tasksData && tasksData.length ? tasksData : [
-            {
-                name: "task 1",
-                createAt: Date.now(),
-                completed: true
-            },
-            {
-                name: "task 2",
-                createAt: Date.now(),
-                completed: false
-            }
-        ]         
-    }
-
-    // Definindo valor no localStorage
-    function setNewData() {
-        localStorage.setItem("tasks", JSON.stringify(arrTasks))
-    }
-
-    setNewData()
+    //     })
+    // }
 
     // Função responsável por criar o elemento li e paragrafo e adicionar os dados do objeto recebido por parametro no paragrafo
     function generateLiTask(obj){
@@ -111,8 +104,6 @@
             createAt: Date.now(),
             completed: false,
         })
-
-        setNewData();
     }
 
     function clickedUlTodoList(e){
@@ -141,13 +132,11 @@
                 arrTasks.splice(currentLiIndex, 1)
                 console.log(arrTasks)
                 renderTasks()
-                setNewData()
             },
             containerEditButton: function(){
                 const valueInputTask = currentLi.querySelector(".editInput").value
                 arrTasks[currentLiIndex].name = valueInputTask
                 renderTasks()
-                setNewData()
             }, 
             containerCancelButton: function(){
                 currentLi.querySelector(".editContainer").removeAttribute("style")
@@ -163,7 +152,7 @@
                 else{
                     currentLi.querySelector(".fa-check").classList.add("displayNone")
                 }
-                setNewData();
+
                 renderTasks()
             }
         } 
